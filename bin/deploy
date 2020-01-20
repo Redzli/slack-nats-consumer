@@ -1,0 +1,21 @@
+#!/bin/sh
+
+if [ -z ${TRAVIS_COMMIT+x} ]; then echo "TRAVIS_COMMIT is unset"; exit 1; fi
+if [ -z ${GH_TOKEN+x} ]; then echo "GH_TOKEN is unset"; exit 1; fi
+if [ -z ${GH_REPO+x} ]; then echo "GH_REPO is unset"; exit 1; fi
+if [ -z ${GIT_EMAIL+x} ]; then echo "GIT_EMAIL is unset"; exit 1; fi
+if [ -z ${GIT_USER+x} ]; then echo "GIT_USER is unset"; exit 1; fi
+
+MESSAGE=$(git log --format=%B -n 1 $TRAVIS_COMMIT)
+git clone https://${GH_TOKEN}@${GH_REPO}
+mv -f ${FILE} ${REPO}
+cd ${REPO}
+/tmp/helm repo index .
+git remote
+git config user.email ${GIT_EMAIL}
+git config user.name ${GIT_USER}
+git add ${FILE} index.yaml
+git commit -m "${MESSAGE}"
+git push "https://${GH_TOKEN}@${GH_REPO}" master
+
+exit 0
