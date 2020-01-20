@@ -1,18 +1,28 @@
 {
   "compilerOptions": {
-    "module": "commonjs",
-    "esModuleInterop": true,
-    "target": "es2016",
-    "noImplicitThis": true,
-    "moduleResolution": "node",
-    "sourceMap": true,
-    "outDir": "dist",
     "baseUrl": ".",
+    "esModuleInterop": true,
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "noImplicitThis": true,
+    "outDir": "dist",
     "paths": {
-      "*": ["node_modules/*", "src/types/*"]
-    }
+      "*": [
+        "node_modules/*",
+        "src/types/*"
+      ]
+    },
+    "sourceMap": true,
+    "target": "es2016"
   },
-  "files": ["app.ts"],
-  "include": ["**/*"],
-  "exclude": ["dist", "build"]
+  "exclude": [
+    "dist",
+    "build"
+  ],
+  "files": [
+    "app.ts"
+  ],
+  "include": [
+    "**/*"
+  ]
 }
