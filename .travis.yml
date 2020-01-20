@@ -1,0 +1,69 @@
+---
+dist: xenial
+language: node_js
+node_js: "6" # or later
+cache:
+  - pip
+  - npm
+  - yarn
+services:
+  - docker
+
+env:
+  global:
+  - PROJECT_NAME="template-nats-consumer"
+  - REPO="helm-chart-releases"
+  - GH_REPO="github.ibm.com/skills-network/helm-chart-releases.git"
+  - HELM_VERSION="v3.0.2"
+
+before_script:
+  - curl -sL https://ibm.biz/idt-installer | bash
+  - ibmcloud login -r us-south --apikey "${IBM_CLOUD_API_KEY:?}" #pragma: allowlist secret
+
+jobs:
+  include:
+    - stage: pre-check code
+      install:
+        - pip install --user -r requirements.travis.txt
+      script:
+        - pre-commit run --all-files
+        - docker run --rm -i hadolint/hadolint:v1.15.0 < $(find . -type f -name "Dockerfile")
+    - # stage name not required, will continue to use `pre-check code`
+      script:
+        - npm test
+    - # stage name not required, will continue to use `pre-check code`
+      before_script:
+        - wget https://get.helm.sh/helm-${HELM_VERSION}-linux-amd64.tar.gz -O /tmp/helm.tar.gz
+        - tar xzf /tmp/helm.tar.gz -C /tmp --strip-components=1
+        - chmod +x /tmp/helm
+      script:
+        - /tmp/helm lint helm-chart
+        - /tmp/helm template helm-chart
+    - stage: build docker image and push to IKS Registry
+      # before_script:
+      #   - apk add --update nodejs nodejs-npm git openssh make g++
+      script:
+        - ibmcloud cr region-set us-south
+        - ibmcloud cr login
+        - sed -i "s/:ci$/:${TRAVIS_TAG:-ci}/g" docker-compose.yml
+        - docker-compose build
+        - docker-compose push
+    - stage: test docker image
+      script:
+        - ibmcloud cr region-set us-south
+        - ibmcloud cr login
+        - docker run --rm "us.icr.io/bsteinfeld/${PROJECT_NAME}:${TRAVIS_TAG:-ci}" npm test
+    - stage: build helm-chart
+      before_deploy:
+        - wget https://get.helm.sh/helm-${HELM_VERSION}-linux-amd64.tar.gz -O /tmp/helm.tar.gz
+        - tar xzf /tmp/helm.tar.gz -C /tmp --strip-components=1
+        - chmod +x /tmp/helm
+        - /tmp/helm package helm-chart
+        - export FILE=$(ls *.tgz)
+      deploy:
+        - provider: script
+          script: bin/deploy
+          skip_cleanup: true
+          on: # yamllint disable-line
+            tags: true
+            all_branches: true

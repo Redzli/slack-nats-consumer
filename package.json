@@ -1,0 +1,44 @@
+{
+  "name": "template_nats_consumer",
+  "version": "0.1.0",
+  "description": "Template NATS Consumer",
+  "private": true,
+  "scripts": {
+    "start": "npm run build-ts && npm run dev",
+    "dev": "concurrently \"npm run watch-ts\" \"npm run watch-node\"",
+    "watch-node": "nodemon dist/app.js --delay 1",
+    "build-ts": "tsc",
+    "watch-ts": "tsc -w",
+    "prod": "npm run build-ts && node dist/app.js",
+    "debug": "npm run build-ts && node dist/app.js",
+    "test": "echo \"AUTO PASS TEST\" && exit 0"
+  },
+  "repository": "git@github.ibm.com:skills-network/template-nats-consumer.git",
+  "keywords": [
+    "Template",
+    "Consumer"
+  ],
+  "dependencies": {
+    "lodash": "^4.17.15",
+    "nodemon": "^2.0.2",
+    "ts-nats": "^1.2.4"
+  },
+  "devDependencies": {
+    "@types/bluebird": "^3.5.20",
+    "@types/callsite": "^1.0.30",
+    "@types/elasticsearch": "^5.0.23",
+    "@types/lodash": "^4.14.91",
+    "@types/morgan": "^1.7.35",
+    "@types/node": "^9.4.6",
+    "concurrently": "^3.5.1",
+    "eslint": "4.11.0",
+    "eslint-config-standard": "10.2.1",
+    "eslint-friendly-formatter": "3.0.0",
+    "eslint-plugin-node": "5.2.1",
+    "eslint-plugin-promise": "3.6.0",
+    "eslint-plugin-standard": "3.0.1",
+    "tslint": "^5.9.1",
+    "nodemon": "^2.0.2",
+    "typescript": "^3.7.5"
+  }
+}
