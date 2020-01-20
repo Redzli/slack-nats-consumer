@@ -52,7 +52,7 @@ jobs:
       script:
         - ibmcloud cr region-set us-south
         - ibmcloud cr login
-        - docker run --rm "us.icr.io/bsteinfeld/${PROJECT_NAME}:${TRAVIS_TAG:-ci}" npm test
+        - docker run --rm "us.icr.io/skills-network/${PROJECT_NAME}:${TRAVIS_TAG:-ci}" npm test
     - stage: build helm-chart
       before_deploy:
         - wget https://get.helm.sh/helm-${HELM_VERSION}-linux-amd64.tar.gz -O /tmp/helm.tar.gz
