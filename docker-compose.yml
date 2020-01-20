@@ -2,7 +2,7 @@ version: '2.1'
 services:
   consumer:
     build: ./build
-    image: us.icr.io/bsteinfeld/template-nats-consumer:ci
+    image: us.icr.io/skills-network/template-nats-consumer:ci
     working_dir: /app
     volumes:
       - '.:/app'
