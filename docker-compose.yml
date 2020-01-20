@@ -1,9 +1,10 @@
 version: '2.1'
 services:
-  consumer:
-    build: ./build
+  producer:
+    build: .
     image: us.icr.io/skills-network/template-nats-consumer:ci
     working_dir: /app
-    volumes:
-      - '.:/app'
+    user: "node"
+    environment:
+      - NODE_ENV=production
     command: 'npm start'
