@@ -70,5 +70,5 @@ affinity: {}
 nats:
   NATS_URL: "nats://nats-server:4222"
   # NATS_USERNAME: "nats-client"
-  # NATS_PASSWORD: "nBqfaX2LL9"
+  # NATS_PASSWORD: ""
   # NATS_TLS: "false"
