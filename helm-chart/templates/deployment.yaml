@@ -14,9 +14,9 @@ spec:
       labels:
         {{- include "template-nats-consumer.selectorLabels" . | nindent 8 }}
     spec:
-    {{- with .Values.imagePullSecrets }}
+    {{- range .Values.imageRegistries }}
       imagePullSecrets:
-        {{- toYaml . | nindent 8 }}
+      - name: {{ .name | quote }}
     {{- end }}
       serviceAccountName: {{ include "template-nats-consumer.serviceAccountName" . }}
       securityContext:
@@ -35,14 +35,17 @@ spec:
             exec:
               command:
                 - "bin/probe"
-              initialDelaySeconds: 30
           readinessProbe:
             exec:
               command:
                 - "bin/probe"
-              initialDelaySeconds: 30
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
+          env:
+            {{- range $key, $val := .Values.nats }}
+            - name: {{ $key | quote }}
+              value: {{ $val | quote }}
+            {{- end }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}

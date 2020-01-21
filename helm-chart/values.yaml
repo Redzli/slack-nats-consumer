@@ -8,8 +8,9 @@ image:
   repository: us.icr.io/skills-network/template-nats-consumer
   pullPolicy: IfNotPresent
 
-imagePullSecrets:
-  - name: default-us-icr-io
+imageRegistries:
+  - name: "nats-test-us-icr-io"
+
 nameOverride: ""
 fullnameOverride: ""
 
@@ -65,3 +66,9 @@ nodeSelector: {}
 tolerations: []
 
 affinity: {}
+
+nats:
+  NATS_URL: "nats://nats-server:4222"
+  # NATS_USERNAME: "nats-client"
+  # NATS_PASSWORD: "nBqfaX2LL9"
+  # NATS_TLS: "false"
