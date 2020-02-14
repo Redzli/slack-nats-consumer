@@ -29,7 +29,7 @@
   ],
   "name": "template_nats_consumer",
   "private": true,
-  "repository": "git@github.ibm.com:skills-network/template-nats-consumer.git",
+  "repository": "https://github.com/Redzli/slack-nats-consumer.git",
   "scripts": {
     "build-ts": "tsc",
     "debug": "npm run build-ts && node dist/app.js",

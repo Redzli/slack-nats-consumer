@@ -1,11 +1,11 @@
-# Default values for template-nats-consumer.
+# Default values for slack-nats-consumer.
 # This is a YAML-formatted file.
-# Declare variables to be passed into your templates.
+# Declare variables to be passed into your slacks.
 
 replicaCount: 1
 
 image:
-  repository: us.icr.io/skills-network/template-nats-consumer
+  repository: us.icr.io/skills-network/slack-nats-consumer
   pullPolicy: IfNotPresent
 
 imageRegistries:
@@ -18,7 +18,7 @@ serviceAccount:
   # Specifies whether a service account should be created
   create: true
   # The name of the service account to use.
-  # If not set and create is true, a name is generated using the fullname template
+  # If not set and create is true, a name is generated using the fullname slack
   name:
 
 podSecurityContext: {}

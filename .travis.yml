@@ -11,9 +11,9 @@ services:
 
 env:
   global:
-  - PROJECT_NAME="template-nats-consumer"
+  - PROJECT_NAME="slack-nats-consumer"
   - REPO="helm-chart-releases"
-  - GH_REPO="github.ibm.com/skills-network/helm-chart-releases.git"
+  - GH_REPO="https://github.com/Redzli/slack-nats-consumer.git"
   - HELM_VERSION="v3.0.2"
 
 before_script:

@@ -2,7 +2,7 @@ version: '2.1'
 services:
   producer:
     build: .
-    image: us.icr.io/skills-network/template-nats-consumer:ci
+    image: us.icr.io/skills-network/slack-nats-consumer:ci
     working_dir: /app
     user: "node"
     environment:

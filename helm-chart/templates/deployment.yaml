@@ -1,24 +1,24 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "template-nats-consumer.fullname" . }}
+  name: {{ include "slack-nats-consumer.fullname" . }}
   labels:
-    {{- include "template-nats-consumer.labels" . | nindent 4 }}
+    {{- include "slack-nats-consumer.labels" . | nindent 4 }}
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
-      {{- include "template-nats-consumer.selectorLabels" . | nindent 6 }}
-  template:
+      {{- include "slack-nats-consumer.selectorLabels" . | nindent 6 }}
+  slack:
     metadata:
       labels:
-        {{- include "template-nats-consumer.selectorLabels" . | nindent 8 }}
+        {{- include "slack-nats-consumer.selectorLabels" . | nindent 8 }}
     spec:
     {{- range .Values.imageRegistries }}
       imagePullSecrets:
       - name: {{ .name | quote }}
     {{- end }}
-      serviceAccountName: {{ include "template-nats-consumer.serviceAccountName" . }}
+      serviceAccountName: {{ include "slack-nats-consumer.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
